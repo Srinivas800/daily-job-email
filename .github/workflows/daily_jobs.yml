@@ -3,7 +3,7 @@ name: Daily Job Search
 on:
   workflow_dispatch:      # allows manual trigger
   schedule:
-    - cron: '0 6 * * *'  # runs daily at 12 PM IST
+    - cron: '30 6 * * *'  # 12:00 PM IST daily (UTC 6:30)
 
 jobs:
   run-job-search:
@@ -18,10 +18,10 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install dependencies    # <-- put it here
+      - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install google-search-results
+          python -m pip install --upgrade pip --no-cache-dir
+          python -m pip install google-search-results --no-cache-dir
 
       - name: Run job search script
         env:
