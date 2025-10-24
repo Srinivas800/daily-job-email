@@ -8,6 +8,10 @@ SERPAPI_KEY = os.environ.get("SERPAPI_KEY")
 EMAIL_USER = os.environ.get("EMAIL_USER")
 EMAIL_PASS = os.environ.get("EMAIL_PASS")
 
+# Safety check for secrets
+if not SERPAPI_KEY or not EMAIL_USER or not EMAIL_PASS:
+    raise Exception("Missing environment variables: SERPAPI_KEY, EMAIL_USER, or EMAIL_PASS")
+
 # Search query
 query = "entry-level software jobs top startups MNCs"
 
@@ -26,8 +30,8 @@ if not results:
 else:
     email_body = ""
     for r in results:
-        title = r.get("title")
-        link = r.get("link")
+        title = r.get("title", "No title")
+        link = r.get("link", "No link")
         snippet = r.get("snippet", "")
         email_body += f"{title}\n{link}\n{snippet}\n\n"
 
@@ -38,8 +42,11 @@ msg['From'] = EMAIL_USER
 msg['To'] = EMAIL_USER
 
 # Send email via Gmail
-with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-    server.login(EMAIL_USER, EMAIL_PASS)
-    server.send_message(msg)
-
-print("Email sent successfully!")
+try:
+    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+        server.login(EMAIL_USER, EMAIL_PASS)
+        server.send_message(msg)
+    print("Email sent successfully!")
+except Exception as e:
+    print(f"Failed to send email: {e}")
+    raise
