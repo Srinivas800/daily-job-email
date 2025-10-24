@@ -21,7 +21,12 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip --no-cache-dir
-          python -m pip install google-search-results --no-cache-dir
+          python -m pip install --no-cache-dir google-search-results
+
+      - name: Verify Python packages
+        run: |
+          python -m pip show google-search-results
+          python -c "from google_search_results import GoogleSearch; print('GoogleSearch import works!')"
 
       - name: Run job search script
         env:
