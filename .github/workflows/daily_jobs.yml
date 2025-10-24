@@ -3,7 +3,7 @@ name: Daily Job Search
 on:
   workflow_dispatch:
   schedule:
-    - cron: '30 6 * * *'  # 12:00 PM IST daily (UTC 6:30)
+    - cron: '30 6 * * *'  # 12 PM IST daily
 
 jobs:
   run-job-search:
@@ -18,12 +18,13 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install dependencies and run script
+      - name: Create virtual environment and run script
         shell: bash
         run: |
-          python -m ensurepip --upgrade
-          python -m pip install --upgrade pip --no-cache-dir
-          python -m pip install --no-cache-dir google-search-results
+          python -m venv venv
+          source venv/bin/activate
+          python -m pip install --upgrade pip
+          pip install google-search-results
           python -c "from google_search_results import GoogleSearch; print('GoogleSearch import works!')"
           python job_search_email.py
         env:
