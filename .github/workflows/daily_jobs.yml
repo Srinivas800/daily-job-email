@@ -18,21 +18,19 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Create venv and run script safely
+      - name: Install dependencies and run script
         shell: bash
         run: |
-          # Create virtual environment
-          python -m venv venv
-          source venv/bin/activate
-
-          # Upgrade pip and install package
+          # Upgrade pip
           python -m pip install --upgrade pip
-          pip install google-search-results
-
-          # Verify import works
+          
+          # Install SerpAPI package
+          python -m pip install google-search-results
+          
+          # Test import works
           python -c "from google_search_results import GoogleSearch; print('GoogleSearch import works!')"
-
-          # Run the job search script inside venv
+          
+          # Run the job search script
           python job_search_email.py
         env:
           SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
