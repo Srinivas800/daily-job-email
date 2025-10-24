@@ -1,72 +1,39 @@
 import os
-import smtplib
-from email.mime.text import MIMEText
-from serpapi import GoogleSearch
-import requests  # For Pushover notifications
-
-# Get credentials and API key from environment
-SERPAPI_KEY = os.environ.get("SERPAPI_KEY")
-EMAIL_USER = os.environ.get("EMAIL_USER")
-EMAIL_PASS = os.environ.get("EMAIL_PASS")
-PUSHOVER_USER_KEY = os.environ.get("PUSHOVER_USER_KEY")
-PUSHOVER_API_TOKEN = os.environ.get("PUSHOVER_API_TOKEN")
-
-# Search query
-query = "entry-level software jobs top startups MNCs"
-
-# Perform Google search via SerpAPI
-search = GoogleSearch({
-    "q": query,
-    "location": "India",
-    "api_key": SERPAPI_KEY,
-    "num": "10"
-})
-
-results = search.get_dict().get("organic_results", [])
-
-# Prepare email content
-if not results:
-    email_body = "No job listings found today."
-else:
-    email_body = ""
-    for r in results:
-        title = r.get("title")
-        link = r.get("link")
-        snippet = r.get("snippet", "")
-        email_body += f"{title}\n{link}\n{snippet}\n\n"
-
-# Create email
-msg = MIMEText(email_body)
-msg['Subject'] = "Daily Entry-Level Software Jobs"
-msg['From'] = EMAIL_USER
-msg['To'] = EMAIL_USER
-
+ import smtplib
+ from email.mime.text import MIMEText
+ from serpapi import GoogleSearch
+ # Get credentials and API key from environment
+ SERPAPI_KEY = os.environ.get("SERPAPI_KEY")
+ EMAIL_USER = os.environ.get("EMAIL_USER")
+ EMAIL_PASS = os.environ.get("EMAIL_PASS")
+ # Search query
+ query = "entry-level software jobs top startups MNCs"
+ # Perform Google search via SerpAPI
+ search = GoogleSearch({
+ "q": query,
+ "location": "India",
+ "api_key": SERPAPI_KEY,
+ "num": "10"
+ })
+ results = search.get_dict().get("organic_results", [])
+ # Prepare email content
+ if not results:
+ email_body = "No job listings found today."
+ else:
+ email_body = ""
+ for r in results:
+ title = r.get("title")
+ link = r.get("link")
+ snippet = r.get("snippet", "")
+ email_body += f"{title}\n{link}\n{snippet}\n\n"
+ # Create email
+ msg = MIMEText(email_body)
+ msg['Subject'] = "Daily Entry-Level Software Jobs"
+ msg['From'] = EMAIL_USER
+ msg['To'] = EMAIL_USER
+ 2
 # Send email via Gmail
-with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-    server.login(EMAIL_USER, EMAIL_PASS)
-    server.send_message(msg)
-
-print("Email sent successfully!")
-
-# Send Pushover notification
-def send_pushover(message):
-    if PUSHOVER_USER_KEY and PUSHOVER_API_TOKEN:
-        try:
-            response = requests.post(
-                "https://api.pushover.net/1/messages.json",
-                data={
-                    "token": PUSHOVER_API_TOKEN,
-                    "user": PUSHOVER_USER_KEY,
-                    "message": message,
-                    "title": "Job Alert"
-                },
-                timeout=10
-            )
-            if response.status_code == 200:
-                print("Pushover notification sent!")
-            else:
-                print(f"Failed to send Pushover notification: {response.text}")
-        except Exception as e:
-            print(f"Error sending Pushover notification: {e}")
-
-send_pushover("Daily Entry-Level Software Jobs email sent!")
+ with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+ server.login(EMAIL_USER, EMAIL_PASS)
+ server.send_message(msg)
+ print("Email sent successfully!")  explain this code 
