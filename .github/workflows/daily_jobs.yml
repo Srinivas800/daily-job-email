@@ -1,9 +1,9 @@
 name: Daily Job Search
 
 on:
-  workflow_dispatch:  # manual trigger
+  workflow_dispatch:      # allows manual trigger
   schedule:
-    - cron: '30 6 * * *'  # 12 PM IST daily
+    - cron: '0 6 * * *'  # runs daily at 12 PM IST
 
 jobs:
   run-job-search:
@@ -18,15 +18,21 @@ jobs:
         with:
           python-version: '3.11'
 
-     - name: Setup Python and install dependencies
-  shell: bash
-  run: |
-    python -m venv venv                  # create virtual environment
-    source venv/bin/activate             # activate it
-    python -m pip install --upgrade pip
-    pip install google-search-results
-    python job_search_email.py           # run your script inside the venv
-  env:
-    SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
-    EMAIL_USER: ${{ secrets.EMAIL_USER }}
-    EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+      - name: Create virtual environment and install dependencies
+        shell: bash
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          python -m pip install --upgrade pip
+          pip install google-search-results
+          pip install --upgrade requests
+
+      - name: Run job search script
+        shell: bash
+        run: |
+          source venv/bin/activate
+          python job_search_email.py
+        env:
+          SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
