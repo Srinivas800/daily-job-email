@@ -2,7 +2,7 @@ import os
 import smtplib
 from email.mime.text import MIMEText
 from serpapi import GoogleSearch
-from pushover import Client  # For notifications
+import requests  # For Pushover notifications
 
 # Get credentials and API key from environment
 SERPAPI_KEY = os.environ.get("SERPAPI_KEY")
@@ -49,7 +49,24 @@ with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
 print("Email sent successfully!")
 
 # Send Pushover notification
-if PUSHOVER_USER_KEY and PUSHOVER_API_TOKEN:
-    client = Client(PUSHOVER_USER_KEY, api_token=PUSHOVER_API_TOKEN)
-    client.send_message("Daily Entry-Level Software Jobs email sent!", title="Job Alert")
-    print("Pushover notification sent!")
+def send_pushover(message):
+    if PUSHOVER_USER_KEY and PUSHOVER_API_TOKEN:
+        try:
+            response = requests.post(
+                "https://api.pushover.net/1/messages.json",
+                data={
+                    "token": PUSHOVER_API_TOKEN,
+                    "user": PUSHOVER_USER_KEY,
+                    "message": message,
+                    "title": "Job Alert"
+                },
+                timeout=10
+            )
+            if response.status_code == 200:
+                print("Pushover notification sent!")
+            else:
+                print(f"Failed to send Pushover notification: {response.text}")
+        except Exception as e:
+            print(f"Error sending Pushover notification: {e}")
+
+send_pushover("Daily Entry-Level Software Jobs email sent!")
