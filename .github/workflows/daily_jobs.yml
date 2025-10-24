@@ -3,7 +3,7 @@ name: Daily Job Search
 on:
   workflow_dispatch:
   schedule:
-    - cron: '30 6 * * *'  # 12:00 PM IST
+    - cron: '30 6 * * *'  # 12:00 PM IST daily (UTC 6:30)
 
 jobs:
   run-job-search:
@@ -18,13 +18,14 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install and run script
+      - name: Install dependencies and run script
+        shell: bash
         run: |
+          python -m ensurepip --upgrade
           python -m pip install --upgrade pip --no-cache-dir
           python -m pip install --no-cache-dir google-search-results
           python -c "from google_search_results import GoogleSearch; print('GoogleSearch import works!')"
           python job_search_email.py
-        shell: bash
         env:
           SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
           EMAIL_USER: ${{ secrets.EMAIL_USER }}
