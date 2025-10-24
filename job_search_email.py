@@ -8,7 +8,7 @@ SERPAPI_KEY = os.environ.get("SERPAPI_KEY")
 EMAIL_USER = os.environ.get("EMAIL_USER")
 EMAIL_PASS = os.environ.get("EMAIL_PASS")
 
-# Safety check for secrets
+# Safety check for missing secrets
 if not SERPAPI_KEY or not EMAIL_USER or not EMAIL_PASS:
     raise Exception("Missing environment variables: SERPAPI_KEY, EMAIL_USER, or EMAIL_PASS")
 
