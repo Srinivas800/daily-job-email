@@ -1,7 +1,7 @@
 import os
 import smtplib
 from email.mime.text import MIMEText
-from google_search_results import GoogleSearch
+from serpapi import GoogleSearch
 
 # Get credentials and API key from environment
 SERPAPI_KEY = os.environ.get("SERPAPI_KEY")
