@@ -1,4 +1,32 @@
-- name: Install dependencies
-  run: |
-    pip install --upgrade pip
-    pip install google-search-results
+name: Daily Job Search
+
+# Trigger manually and daily at 12 PM IST
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * *'  # 12 PM IST (UTC+5:30)
+
+jobs:
+  run-job-search:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install google-search-results
+
+      - name: Run job search script
+        env:
+          SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
+          EMAIL_USER: ${{ secrets.EMAIL_USER }}
+          EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+        run: python job_search_email.py
