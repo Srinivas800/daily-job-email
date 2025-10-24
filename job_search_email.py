@@ -1,7 +1,8 @@
 import os
 import smtplib
 from email.mime.text import MIMEText
-from serpapi import GoogleSearch
+from serpapi.google_search_results import GoogleSearch
+
 
 SERPAPI_KEY = os.environ.get("SERPAPI_KEY")
 EMAIL_USER = os.environ.get("EMAIL_USER")
