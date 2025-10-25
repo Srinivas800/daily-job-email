@@ -74,7 +74,7 @@ Integrate Telegram or Slack notifications.
 
 Sayinni Srinivas
 
-💼 LinkedIn[LinkedIn]([https://example.com](https://www.linkedin.com/in/sayinni-srinivas-aa208a267?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BHzBBKSlLRlesKOCXQdPdNQ%3D%3D))
+💼 [LinkedIn]([https://example.com](https://www.linkedin.com/in/sayinni-srinivas-aa208a267?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BHzBBKSlLRlesKOCXQdPdNQ%3D%3D))
 
 
 📧 [Email](mailto:srinivassayinni@gmail.com)
