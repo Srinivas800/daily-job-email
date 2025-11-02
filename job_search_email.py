@@ -11,7 +11,7 @@ RECIPIENT_EMAIL = os.environ.get("RECIPIENT_EMAIL")
 CC_RECIPIENTS = os.environ.get("CC_RECIPIENTS")   # <-- Get the new CC list
 
 # Search query
-query = "entry-level software jobs top startups MNCs"
+query = "discounts on food delivery apps"
 
 # Perform Google search via SerpAPI
 search = GoogleSearch({
@@ -62,4 +62,5 @@ except smtplib.SMTPException as e:
     print(f"Error: Unable to send email. {e}")
 except Exception as e:
     print(f"An unexpected error occurred: {e}")
+
 
