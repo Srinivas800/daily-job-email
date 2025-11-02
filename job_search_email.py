@@ -7,7 +7,7 @@ from serpapi import GoogleSearch
 SERPAPI_KEY = os.environ.get("SERPAPI_KEY")
 EMAIL_USER = os.environ.get("EMAIL_USER")        # Your email
 EMAIL_PASS = os.environ.get("EMAIL_PASS")        # Your email password/app password
-RECIPIENT_EMAIL = os.environ.get("RECIPIENT_EMAIL") # The email you want to send to
+RECIPIENT_EMAIL = os.environ.get("shivasaigatla4@gmail.com") # The email you want to send to
 
 # Search query
 query = "entry-level software jobs top startups MNCs"
