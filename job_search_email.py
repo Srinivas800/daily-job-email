@@ -5,9 +5,10 @@ from serpapi import GoogleSearch
 
 # Get credentials and API key from environment
 SERPAPI_KEY = os.environ.get("SERPAPI_KEY")
-EMAIL_USER = os.environ.get("EMAIL_USER")        # Your email
-EMAIL_PASS = os.environ.get("EMAIL_PASS")        # Your email password/app password
-RECIPIENT_EMAIL = os.environ.get("RECIPIENT_EMAIL") # The email you want to send to
+EMAIL_USER = os.environ.get("EMAIL_USER")        
+EMAIL_PASS = os.environ.get("EMAIL_PASS")        
+RECIPIENT_EMAIL = os.environ.get("RECIPIENT_EMAIL") 
+CC_RECIPIENTS = os.environ.get("CC_RECIPIENTS")   # <-- Get the new CC list
 
 # Search query
 query = "entry-level software jobs top startups MNCs"
@@ -34,19 +35,31 @@ else:
 
 # Create email
 msg = MIMEText(email_body)
-msg['Subject'] = "Daily Entry-Level Software Jobs"
+msg['Subject'] = "discounts on food delivery apps"
 msg['From'] = EMAIL_USER
-msg['To'] = RECIPIENT_EMAIL  # <-- MODIFIED LINE
+msg['To'] = RECIPIENT_EMAIL  
+
+# --- ADDED LOGIC ---
+# If the CC_RECIPIENTS variable exists and isn't empty, add a Cc header
+if CC_RECIPIENTS:
+    msg['Cc'] = CC_RECIPIENTS
+# ---------------------
 
 # Send email via Gmail
 try:
-    with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
-        server.login(EMAIL_USER, EMAIL_PASS)
-        server.send_message(msg)
-    
-    print(f"Email sent successfully to {RECIPIENT_EMAIL}!")
+    if not RECIPIENT_EMAIL:
+        print("Error: RECIPIENT_EMAIL environment variable is not set.")
+    else:
+        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+            server.login(EMAIL_USER, EMAIL_PASS)
+            server.send_message(msg) # send_message handles 'To' and 'Cc'
+        
+        print(f"Email sent successfully to {RECIPIENT_EMAIL}!")
+        if CC_RECIPIENTS:
+            print(f"Email also sent to Cc: {CC_RECIPIENTS}")
 
 except smtplib.SMTPException as e:
     print(f"Error: Unable to send email. {e}")
 except Exception as e:
     print(f"An unexpected error occurred: {e}")
+
