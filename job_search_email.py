@@ -9,7 +9,7 @@ EMAIL_USER = os.environ.get("EMAIL_USER")
 EMAIL_PASS = os.environ.get("EMAIL_PASS")
 
 # Search query
-query = "entry-level software jobs top startups MNCs"
+query = "entry-level software jobs top startups MNCs in india"
 
 # Perform Google search via SerpAPI
 search = GoogleSearch({
