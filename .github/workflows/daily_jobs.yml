@@ -1,10 +1,9 @@
-
 name: Daily Job Search
 
 on:
-  workflow_dispatch:      # allows manual trigger
+  workflow_dispatch:     # allows manual trigger
   schedule:
-    - cron: '0 6 * * *'  # runs daily at 12 PM IST
+    - cron: '0 6 * * *'  # runs daily at 6:00 AM UTC (11:30 AM IST)
 
 jobs:
   run-job-search:
@@ -27,6 +26,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install google-search-results
           pip install --upgrade requests
+          
       - name: Run job search script
         shell: bash
         run: |
@@ -36,3 +36,4 @@ jobs:
           SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
           EMAIL_USER: ${{ secrets.EMAIL_USER }}
           EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}  # <-- ADD THIS LINE
