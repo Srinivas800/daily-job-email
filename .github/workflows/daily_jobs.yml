@@ -3,7 +3,7 @@ name: Daily Job Search
 on:
   workflow_dispatch:     # allows manual trigger
   schedule:
-    - cron: '0 6 * * *'  # runs daily at 6:00 AM UTC (11:30 AM IST)
+    - cron: '0 6 * * *'  
 
 jobs:
   run-job-search:
